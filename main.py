@@ -117,6 +117,13 @@ def main(stdscr):
                 result_space.border()
 
                 start_search(result_space, search_bar_text_box.get_string())
+            elif keycode_in == curses.KEY_HOME:
+                search_bar_text_box.home()
+                start_search(result_space, search_bar_text_box.get_string())
+
+            elif keycode_in == curses.KEY_END:
+                search_bar_text_box.end()
+                start_search(result_space, search_bar_text_box.get_string())
 
         search_bar.addstr(1, 1, search_bar_text_box.get_string_with_cursor())
 

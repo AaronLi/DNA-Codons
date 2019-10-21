@@ -29,6 +29,12 @@ class TextBox:
     def cursor_right(self):
         self.cursor_pos = min(self.cursor_pos + 1, len(self.typed_string))
 
+    def home(self):
+        self.cursor_pos = 0
+
+    def end(self):
+        self.cursor_pos = len(self.typed_string)
+
     def get_string(self):
         return ''.join(self.typed_string)
 
