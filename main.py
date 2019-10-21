@@ -56,8 +56,8 @@ def main(stdscr):
     typed_string = []
     cursor_pos = 0
 
-    splash_text = ["Made by Aaron Li 2019",
-                   "Enter to start"]
+    splash_text = ("Made by Aaron Li 2019",
+                   "Enter to start")
     for i, v in enumerate(splash_text):
         stdscr.addstr(screen_height//2-2+i, screen_width//2 - len(v)//2, v)
     stdscr.refresh()

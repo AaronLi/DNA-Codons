@@ -33,13 +33,11 @@ class AAcidDictionary:
         print(len(self.search_space), str(self.search_space))
 
     def find_amino_acid(self, character):
-        outputs = []
         if character in self.codon_data:
-            outputs.append((character, self.codon_data[character]))
+            yield (character, self.codon_data[character])
         elif character in self.inverse_codon_data:
             for entry in self.inverse_codon_data[character]:
-                outputs.append((entry, self.codon_data[entry]))
-        return outputs
+                yield (entry, self.codon_data[entry])
 
 
     def get_search_space(self):
@@ -60,4 +58,5 @@ class AAcidDictionary:
         #create a generator for the results so a separate lookup call is not needed
         #effectively returns an iterable of the closest results
         for result in results:
-            yield (result[1], self.find_amino_acid(result[1]))
+            search_space_term = result[1]
+            yield (search_space_term, self.find_amino_acid(search_space_term))
