@@ -96,7 +96,6 @@ def main(stdscr):
     curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_WHITE)
     curses.curs_set(False)
     curses.cbreak()
-    stdscr.nodelay(True)
 
     running = True
 
@@ -160,6 +159,14 @@ def main(stdscr):
             elif keycode_in == curses.KEY_RIGHT:
                 cursor_pos = min(cursor_pos+1, len(typed_string))
                 start_search(result_space, ''.join(typed_string))
+            elif keycode_in == curses.KEY_RESIZE:
+                curses.curs_set(False)
+                screen_height, screen_width = stdscr.getmaxyx()
+
+                search_bar.resize(3, screen_width - 2)
+
+                result_space.resize(screen_height - 5, screen_width - 2)
+
 
         string_out = ''.join(typed_string)
         search_bar.addstr(1, 1, string_out[:cursor_pos]+"_"+string_out[cursor_pos:])
