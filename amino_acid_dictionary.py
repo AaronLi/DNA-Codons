@@ -32,6 +32,8 @@ class AAcidDictionary:
 
         print(len(self.search_space), str(self.search_space))
 
+        self.levenshtein_engine = levenshtein.Levenshtein(u=(7,1,4), t=(7,1,4))
+
     def find_amino_acid(self, character):
         if character in self.codon_data:
             yield (character, self.codon_data[character])
@@ -49,7 +51,7 @@ class AAcidDictionary:
 
         #find the distance from the query to each word in the search space
         for v in self.get_search_space():
-            distance = levenshtein.iterative_levenshtein(searchWord, v.lower())
+            distance = self.levenshtein_engine.get_distance(searchWord, v.lower())
             results.append((distance, v))
 
         #sort results by levenshtein distance
