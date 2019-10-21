@@ -1,0 +1,117 @@
+{
+  "phenylalanine":{
+    "codes":["UUU", "UUC"],
+    "abbreviation":"phe",
+    "letter": "F"
+  },
+  "leucine": {
+    "codes":["UUA", "UUG"],
+    "abbreviation": "leu",
+    "letter": "L"
+  },
+  "isoleucine":{
+    "codes": ["AUU", "AUC", "AUA"],
+    "abbreviation": "ile",
+    "letter": "I"
+  },
+  "methionine": {
+    "codes": ["AUG"],
+    "abbreviation": "met",
+    "letter": "M"
+  },
+  "valine": {
+    "codes": ["GUU", "GUC", "GUA", "GUG"],
+    "abbreviation": "val",
+    "letter": "V"
+  },
+  "serine": {
+    "codes": ["UCU", "UCC", "UCA", "UCG", "AGU", "AGC"],
+    "abbreviation": "ser",
+    "letter": "S"
+  },
+  "proline": {
+    "codes": ["CCU", "CCC", "CCA", "CCG"],
+    "abbreviation": "pro",
+    "letter": "P"
+  },
+  "threonine": {
+    "codes": ["ACU", "ACC", "ACA", "ACG"],
+    "abbreviation": "thr",
+    "letter": "T"
+  },
+  "alanine": {
+    "codes": ["GCU", "GCC", "GCA", "GCG"],
+    "abbreviation": "ala",
+    "letter": "A"
+  },
+  "tyrosine": {
+    "codes": ["UAU", "UAC"],
+    "abbreviation": "tyr",
+    "letter": "Y"
+  },
+  "ochre": {
+    "codes": ["UAA"],
+    "abbreviation": "stop",
+    "letter": "stop"
+  },
+  "amber": {
+    "codes": ["UAG"],
+    "abbreviation": "stop",
+    "letter": "stop"
+  },
+  "histidine": {
+    "codes": ["CAU", "CAC"],
+    "abbreviation": "his",
+    "letter": "H"
+  },
+  "glutamine": {
+    "codes": ["CAA", "CAG"],
+    "abbreviation": "gln",
+    "letter": "Q"
+  },
+  "asparagine": {
+    "codes": ["AAU", "AAC"],
+    "abbreviation": "asn",
+    "letter": "N"
+  },
+  "lysine": {
+    "codes": ["AAA", "AAG"],
+    "abbreviation": "lys",
+    "letter": "K"
+  },
+  "aspartic acid": {
+    "codes": ["GAU", "GAC"],
+    "abbreviation": "asp",
+    "letter": "D"
+  },
+  "glutamic acid": {
+    "codes": ["GAA", "GAG"],
+    "abbreviation": "glu",
+    "letter": "E"
+  },
+  "cysteine": {
+    "codes": ["UGU","UGC"],
+    "abbreviation": "cys",
+    "letter": "C"
+  },
+  "opal": {
+    "codes": ["UGA"],
+    "abbreviation": "stop",
+    "letter": "stop"
+  },
+  "tryptophan": {
+    "codes": ["UGG"],
+    "abbreviation": "trp",
+    "letter": "W"
+  },
+  "arginine": {
+    "codes": ["CGU","CGC","CGA","CGG", "AGA","AGG"],
+    "abbreviation": "arg",
+    "letter": "R"
+  },
+  "glycine": {
+    "codes": ["GGU","GGC","GGA","GGG"],
+    "abbreviation": "gly",
+    "letter": "G"
+  }
+}
