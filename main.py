@@ -1,5 +1,5 @@
 import amino_acid_dictionary
-import curses
+import curses, textbox
 
 ENTER_KEYCODE = 10
 ESCAPE_KEYCODE = 27
@@ -54,8 +54,7 @@ def main(stdscr):
 
     result_space = curses.newwin(screen_height - 5, screen_width - 2, 4, 1)
 
-    typed_string = []
-    cursor_pos = 0
+    search_bar_text_box = textbox.TextBox()
 
     splash_text = ("Made by Aaron Li 2019",
                    "Enter to start")
@@ -79,32 +78,28 @@ def main(stdscr):
             keycode_in = char
 
             if chr(char).lower() in legal_chars:
-                typed_string.insert(cursor_pos, chr(char))
-                start_search(result_space, ''.join(typed_string))
-                cursor_pos += 1
+                search_bar_text_box.insert_letter(chr(char))
+                start_search(result_space, search_bar_text_box.get_string())
 
             elif keycode_in == ENTER_KEYCODE:
-                start_search(result_space, ''.join(typed_string))
-                typed_string = []
-                cursor_pos = 0
+                start_search(result_space, search_bar_text_box.get_string())
+                search_bar_text_box.clear_searchbar()
+
             elif keycode_in == CTRL_C_KEYCODE or keycode_in == ESCAPE_KEYCODE:
                 running = False
             elif keycode_in == BACKSPACE_KEYCODE:
-                if cursor_pos > 0:
-                    typed_string = typed_string[:cursor_pos - 1] + typed_string[cursor_pos:]
-                    start_search(result_space, ''.join(typed_string))
-                    cursor_pos = max(cursor_pos - 1, 0)
+                search_bar_text_box.backspace()
+                start_search(result_space, search_bar_text_box.get_string())
             elif keycode_in == curses.KEY_DC:
-                if cursor_pos < len(typed_string):
-                    typed_string = typed_string[:cursor_pos] + typed_string[cursor_pos + 1:]
-                    start_search(result_space, ''.join(typed_string))
+                search_bar_text_box.delete()
+                start_search(result_space, search_bar_text_box.get_string())
 
             elif keycode_in == curses.KEY_LEFT:
-                cursor_pos = max(cursor_pos - 1, 0)
-                start_search(result_space, ''.join(typed_string))
+                search_bar_text_box.cursor_left()
+                start_search(result_space, search_bar_text_box.get_string())
             elif keycode_in == curses.KEY_RIGHT:
-                cursor_pos = min(cursor_pos + 1, len(typed_string))
-                start_search(result_space, ''.join(typed_string))
+                search_bar_text_box.cursor_right()
+                start_search(result_space, search_bar_text_box.get_string())
             elif keycode_in == curses.KEY_RESIZE:
                 curses.curs_set(False)
                 screen_height, screen_width = stdscr.getmaxyx()
@@ -113,8 +108,17 @@ def main(stdscr):
 
                 result_space.resize(screen_height - 5, screen_width - 2)
 
-        string_out = ''.join(typed_string)
-        search_bar.addstr(1, 1, string_out[:cursor_pos] + "_" + string_out[cursor_pos:])
+                search_bar.clear()
+                stdscr.clear()
+                result_space.clear()
+
+                stdscr.border()
+                search_bar.border()
+                result_space.border()
+
+                start_search(result_space, search_bar_text_box.get_string())
+
+        search_bar.addstr(1, 1, search_bar_text_box.get_string_with_cursor())
 
         stdscr.refresh()
         search_bar.refresh(0, 0, 1, 1, 3, screen_width - 2)
