@@ -57,7 +57,7 @@
     "codes": ["UAU", "UAC"],
     "abbreviation": "tyr",
     "letter": "Y",
-    "charge": "Amphipathic"
+    "charge": ["Amphipathic", "Polar"]
   },
   "ochre": {
     "codes": ["UAA"],

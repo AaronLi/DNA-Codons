@@ -14,7 +14,7 @@ def iterative_levenshtein(s, t, **weight_dict):
     cols = len(t) + 1
 
     alphabet = "abcdefghijklmnopqrstuvwxyz "
-    w = dict((x, (2, 0, 1)) for x in alphabet + alphabet.upper())
+    w = dict((x, (7, 1, 6)) for x in alphabet + alphabet.upper())
     if weight_dict:
         w.update(weight_dict)
 

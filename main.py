@@ -1,7 +1,5 @@
-import json
+import amino_acid_dictionary
 import curses
-import levenshtein
-import pprint
 
 ENTER_KEYCODE = 10
 ESCAPE_KEYCODE = 27
@@ -10,78 +8,25 @@ BACKSPACE_KEYCODE = 8
 LEFT_ARROW_KEYCODE = -2
 RIGHT_ARROW_KEYCODE = -2
 
-with open("codon_data.json") as f:
-    codon_data = json.load(f)
+amino_acids = amino_acid_dictionary.AAcidDictionary("codon_data.json")
 
-
-search_space = set()
-
-inverse_codon_info = {}
-
-for amino_acid in codon_data:
-    search_space.add(amino_acid.lower())
-    for acid_info in codon_data[amino_acid]:
-        data_entry = codon_data[amino_acid][acid_info]
-        if acid_info == 'codes':
-            for info in data_entry:
-                search_space.add(info.lower())
-                if info in inverse_codon_info:
-                    inverse_codon_info[info.lower()].append(amino_acid)
-                else:
-                    inverse_codon_info[info.lower()] = [amino_acid]
-        else:
-            search_space.add(data_entry.lower())
-            key = data_entry.lower()
-            if acid_info == 'abbreviation':
-                if key in inverse_codon_info:
-                    inverse_codon_info[key].append(amino_acid)
-                else:
-                    inverse_codon_info[key] = [amino_acid]
-            elif acid_info == 'letter':
-                if key in inverse_codon_info:
-                    inverse_codon_info[key].append(amino_acid)
-                else:
-                    inverse_codon_info[key] = [amino_acid]
-            elif acid_info == 'charge':
-                if key in inverse_codon_info:
-                    inverse_codon_info[key].append(amino_acid)
-                else:
-                    inverse_codon_info[key] = [amino_acid]
-search_space = list(search_space)
-
-def find_result_by_entry(character):
-    outputs = []
-    if character in codon_data:
-        outputs.append((character, codon_data[character]))
-    if character in inverse_codon_info:
-        for entry in inverse_codon_info[character]:
-            outputs.append((entry, codon_data[entry]))
-    return outputs
 
 def start_search(screen, sIn):
-    num_results = 0
     screen_height, screen_width = screen.getmaxyx()
     screen.addstr(1, 1, "Search: %s"%sIn)
-    search_results = []
     if len(sIn) == 0:
         return
-    for v in search_space:
-        distance = levenshtein.iterative_levenshtein(sIn.lower(), v.lower())
-        search_results.append((distance, v))
-        num_results+=1
 
-    search_results.sort()
+    #list of (amino acid, info about the amino acid)
+    search_results = amino_acids.query(sIn)
 
     draw_line = 2
     for result in search_results:
         if draw_line < screen_height - 1:
-            lookup_results = find_result_by_entry(result[1])
-            if lookup_results is None:
-                continue
-            for lookup_result in lookup_results:
+            for lookup_result in result[1]:
                 amino_acid, acid_info = lookup_result
                 if draw_line < screen_height - 1:
-                    screen.addstr(draw_line, 1, str(result[1])+": "+amino_acid, curses.color_pair(1))
+                    screen.addstr(draw_line, 1, result[0]+": "+amino_acid, curses.color_pair(1))
                     draw_line+=1
 
                     for acid_info_entry in acid_info:
@@ -93,7 +38,7 @@ def start_search(screen, sIn):
             break
 
 def main(stdscr):
-    curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_WHITE)
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
     curses.curs_set(False)
     curses.cbreak()
 
@@ -167,7 +112,6 @@ def main(stdscr):
 
                 result_space.resize(screen_height - 5, screen_width - 2)
 
-
         string_out = ''.join(typed_string)
         search_bar.addstr(1, 1, string_out[:cursor_pos]+"_"+string_out[cursor_pos:])
 
@@ -177,5 +121,4 @@ def main(stdscr):
         search_bar.refresh(0, 0, 1, 1, 3, screen_width - 2)
         result_space.refresh()
 
-#print(len(search_space), str( search_space))
 curses.wrapper(main)
