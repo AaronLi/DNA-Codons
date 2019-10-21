@@ -14,40 +14,49 @@ with open("codon_data.json") as f:
     codon_data = json.load(f)
 
 
-search_space = []
+search_space = set()
 
-amino_acid_by_encoding = {}
-amino_acid_by_abbreviation = {}
-amino_acid_by_letter = {}
-
-lookup_tables = [amino_acid_by_letter, amino_acid_by_abbreviation, amino_acid_by_encoding]
+inverse_codon_info = {}
 
 for amino_acid in codon_data:
-    search_space.append(amino_acid.lower())
+    search_space.add(amino_acid.lower())
     for acid_info in codon_data[amino_acid]:
         data_entry = codon_data[amino_acid][acid_info]
         if acid_info == 'codes':
             for info in data_entry:
-                search_space.append(info.lower())
-                amino_acid_by_encoding[info.lower()] = amino_acid
+                search_space.add(info.lower())
+                if info in inverse_codon_info:
+                    inverse_codon_info[info.lower()].append(amino_acid)
+                else:
+                    inverse_codon_info[info.lower()] = [amino_acid]
         else:
-            search_space.append(data_entry.lower())
+            search_space.add(data_entry.lower())
             key = data_entry.lower()
             if acid_info == 'abbreviation':
-                amino_acid_by_abbreviation[key] = amino_acid
+                if key in inverse_codon_info:
+                    inverse_codon_info[key].append(amino_acid)
+                else:
+                    inverse_codon_info[key] = [amino_acid]
             elif acid_info == 'letter':
-                amino_acid_by_letter[key] = amino_acid
+                if key in inverse_codon_info:
+                    inverse_codon_info[key].append(amino_acid)
+                else:
+                    inverse_codon_info[key] = [amino_acid]
+            elif acid_info == 'charge':
+                if key in inverse_codon_info:
+                    inverse_codon_info[key].append(amino_acid)
+                else:
+                    inverse_codon_info[key] = [amino_acid]
+search_space = list(search_space)
 
-
-print(str(len(search_space))+" "+str( search_space))
-pprint.pprint(lookup_tables)
 def find_result_by_entry(character):
+    outputs = []
     if character in codon_data:
-        return character, codon_data[character]
-    for table in lookup_tables:
-        if character in table:
-            return table[character], codon_data[table[character]]
-
+        outputs.append((character, codon_data[character]))
+    if character in inverse_codon_info:
+        for entry in inverse_codon_info[character]:
+            outputs.append((entry, codon_data[entry]))
+    return outputs
 
 def start_search(screen, sIn):
     num_results = 0
@@ -66,26 +75,28 @@ def start_search(screen, sIn):
     draw_line = 2
     for result in search_results:
         if draw_line < screen_height - 1:
-            lookup_result = find_result_by_entry(result[1])
-            if lookup_result is None:
+            lookup_results = find_result_by_entry(result[1])
+            if lookup_results is None:
                 continue
-            amino_acid, acid_info = lookup_result
-
-            screen.addstr(draw_line, 1, str(result[1])+" "+str(result[0])+" "+": "+amino_acid)
-            draw_line+=1
-
-            for acid_info_entry in acid_info:
-                if draw_line < screen_height-1:
-                    screen.addstr(draw_line, 4, acid_info_entry+": "+str(acid_info[acid_info_entry]))
+            for lookup_result in lookup_results:
+                amino_acid, acid_info = lookup_result
+                if draw_line < screen_height - 1:
+                    screen.addstr(draw_line, 1, str(result[1])+": "+amino_acid, curses.color_pair(1))
                     draw_line+=1
+
+                    for acid_info_entry in acid_info:
+                        if draw_line < screen_height-1:
+                            screen.addstr(draw_line, 4, acid_info_entry+": "+str(acid_info[acid_info_entry]))
+                            draw_line+=1
 
         else:
             break
 
 def main(stdscr):
+    curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_WHITE)
     curses.curs_set(False)
     curses.cbreak()
-    stdscr.nodelay(1)
+    stdscr.nodelay(True)
 
     running = True
 
@@ -100,6 +111,12 @@ def main(stdscr):
 
     typed_string = []
     cursor_pos = 0
+
+    splash_text = ["Made by Aaron Li 2019",
+                   "Enter to start"]
+    for i, v in enumerate(splash_text):
+        stdscr.addstr(screen_height//2-2+i, screen_width//2 - len(v)//2, v)
+    stdscr.refresh()
 
     while running:
         search_bar_height, search_bar_width = search_bar.getmaxyx()
@@ -139,8 +156,10 @@ def main(stdscr):
 
             elif keycode_in == curses.KEY_LEFT:
                 cursor_pos = max(cursor_pos-1, 0)
+                start_search(result_space, ''.join(typed_string))
             elif keycode_in == curses.KEY_RIGHT:
                 cursor_pos = min(cursor_pos+1, len(typed_string))
+                start_search(result_space, ''.join(typed_string))
 
         string_out = ''.join(typed_string)
         search_bar.addstr(1, 1, string_out[:cursor_pos]+"_"+string_out[cursor_pos:])
@@ -151,4 +170,5 @@ def main(stdscr):
         search_bar.refresh(0, 0, 1, 1, 3, screen_width - 2)
         result_space.refresh()
 
+#print(len(search_space), str( search_space))
 curses.wrapper(main)

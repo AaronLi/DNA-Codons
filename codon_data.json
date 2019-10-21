@@ -2,116 +2,136 @@
   "phenylalanine":{
     "codes":["UUU", "UUC"],
     "abbreviation":"phe",
-    "letter": "F"
+    "letter": "F",
+    "charge": "Hydrophobic"
   },
   "leucine": {
     "codes":["UUA", "UUG"],
     "abbreviation": "leu",
-    "letter": "L"
+    "letter": "L",
+    "charge": "Hydrophobic"
   },
   "isoleucine":{
     "codes": ["AUU", "AUC", "AUA"],
     "abbreviation": "ile",
-    "letter": "I"
+    "letter": "I",
+    "charge": "Hydrophobic"
   },
   "methionine": {
     "codes": ["AUG"],
     "abbreviation": "met",
-    "letter": "M"
+    "letter": "M",
+    "charge": "Amphipathic"
   },
   "valine": {
     "codes": ["GUU", "GUC", "GUA", "GUG"],
     "abbreviation": "val",
-    "letter": "V"
+    "letter": "V",
+    "charge": "Hydrophobic"
   },
   "serine": {
     "codes": ["UCU", "UCC", "UCA", "UCG", "AGU", "AGC"],
     "abbreviation": "ser",
-    "letter": "S"
+    "letter": "S",
+    "charge": "Polar"
   },
   "proline": {
     "codes": ["CCU", "CCC", "CCA", "CCG"],
     "abbreviation": "pro",
-    "letter": "P"
+    "letter": "P",
+    "charge": "Hydrophobic"
   },
   "threonine": {
     "codes": ["ACU", "ACC", "ACA", "ACG"],
     "abbreviation": "thr",
-    "letter": "T"
+    "letter": "T",
+    "charge": "Polar"
   },
   "alanine": {
     "codes": ["GCU", "GCC", "GCA", "GCG"],
     "abbreviation": "ala",
-    "letter": "A"
+    "letter": "A",
+    "charge": "Hydrophobic"
   },
   "tyrosine": {
     "codes": ["UAU", "UAC"],
     "abbreviation": "tyr",
-    "letter": "Y"
+    "letter": "Y",
+    "charge": "Amphipathic"
   },
   "ochre": {
     "codes": ["UAA"],
     "abbreviation": "stop",
-    "letter": "stop"
+    "letter": "stp"
   },
   "amber": {
     "codes": ["UAG"],
     "abbreviation": "stop",
-    "letter": "stop"
+    "letter": "stp"
   },
   "histidine": {
     "codes": ["CAU", "CAC"],
     "abbreviation": "his",
-    "letter": "H"
+    "letter": "H",
+    "charge": "Polar"
   },
   "glutamine": {
     "codes": ["CAA", "CAG"],
     "abbreviation": "gln",
-    "letter": "Q"
+    "letter": "Q",
+    "charge": "Polar"
   },
   "asparagine": {
     "codes": ["AAU", "AAC"],
     "abbreviation": "asn",
-    "letter": "N"
+    "letter": "N",
+    "charge": "Polar"
   },
   "lysine": {
     "codes": ["AAA", "AAG"],
     "abbreviation": "lys",
-    "letter": "K"
+    "letter": "K",
+    "charge": "Charged"
   },
   "aspartic acid": {
     "codes": ["GAU", "GAC"],
     "abbreviation": "asp",
-    "letter": "D"
+    "letter": "D",
+    "charge": "Charged"
   },
   "glutamic acid": {
     "codes": ["GAA", "GAG"],
     "abbreviation": "glu",
-    "letter": "E"
+    "letter": "E",
+    "charge": "Charged"
   },
   "cysteine": {
     "codes": ["UGU","UGC"],
     "abbreviation": "cys",
-    "letter": "C"
+    "letter": "C",
+    "charge": "Polar"
   },
   "opal": {
     "codes": ["UGA"],
     "abbreviation": "stop",
-    "letter": "stop"
+    "letter": "stp"
   },
   "tryptophan": {
     "codes": ["UGG"],
     "abbreviation": "trp",
-    "letter": "W"
+    "letter": "W",
+    "charge": "Amphipathic"
   },
   "arginine": {
     "codes": ["CGU","CGC","CGA","CGG", "AGA","AGG"],
     "abbreviation": "arg",
-    "letter": "R"
+    "letter": "R",
+    "charge": "Charged"
   },
   "glycine": {
     "codes": ["GGU","GGC","GGA","GGG"],
     "abbreviation": "gly",
-    "letter": "G"
+    "letter": "G",
+    "charge": "Hydrophobic"
   }
 }
