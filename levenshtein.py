@@ -8,7 +8,7 @@ class Levenshtein:
 
     def get_distance(self, s, t):
         """
-            iterative_levenshtein(s, t) -> ldist
+            Levenshtein.get_distance(s, t) -> ldist
             ldist is the Levenshtein distance between the strings
             s and t.
             For all i and j, dist[i,j] will contain the Levenshtein

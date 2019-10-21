@@ -1,10 +1,10 @@
 import json, levenshtein
 
+
 class AAcidDictionary:
     def __init__(self, fp):
         with open(fp) as f:
             self.codon_data = json.load(f)
-
 
         self.search_space = set()
 
@@ -30,9 +30,9 @@ class AAcidDictionary:
                         self.inverse_codon_data[key] = [amino_acid]
         self.search_space = list(self.search_space)
 
-        print(len(self.search_space), str(self.search_space))
+        #print(len(self.search_space), str(self.search_space))
 
-        self.levenshtein_engine = levenshtein.Levenshtein(u=(7,1,4), t=(7,1,4))
+        self.levenshtein_engine = levenshtein.Levenshtein(u=(7, 1, 4), t=(7, 1, 4))
 
     def find_amino_acid(self, character):
         if character in self.codon_data:
@@ -41,7 +41,6 @@ class AAcidDictionary:
             for entry in self.inverse_codon_data[character]:
                 yield (entry, self.codon_data[entry])
 
-
     def get_search_space(self):
         return self.search_space
 
@@ -49,16 +48,16 @@ class AAcidDictionary:
         searchWord = word.lower()
         results = []
 
-        #find the distance from the query to each word in the search space
+        # find the distance from the query to each word in the search space
         for v in self.get_search_space():
             distance = self.levenshtein_engine.get_distance(searchWord, v.lower())
             results.append((distance, v))
 
-        #sort results by levenshtein distance
+        # sort results by levenshtein distance
         results.sort()
 
-        #create a generator for the results so a separate lookup call is not needed
-        #effectively returns an iterable of the closest results
+        # create a generator for the results so a separate lookup call is not needed
+        # effectively returns an iterable of the closest results
         for result in results:
             search_space_term = result[1]
             yield (search_space_term, self.find_amino_acid(search_space_term))
